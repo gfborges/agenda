@@ -1,5 +1,7 @@
 package br.com.app;
 
+import java.io.IOException;
+
 import br.com.modelo.Agenda;
 import br.com.negocio.Controle;
 import br.com.negocio.Menu;
@@ -39,7 +41,11 @@ public class App {
 					break;
 					
 				case 7:
-					// importar / Exportar
+					try {
+						agenda.exportar_csv();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					break;
 				default:
 					System.out.println("\nInsira uma opção valida!");
