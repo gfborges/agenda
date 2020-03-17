@@ -5,34 +5,46 @@ import br.com.negocio.Controle;
 import java.time.ZoneId;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Agenda {
 	List<Pessoa> clientes = new ArrayList<Pessoa>();
 	
 	public void cadastrar() {
-		String nome = "", tnum = "", gen = "";
-		String cidade, bairro, rua, complemento, cnum;
+		String nome = "",
+		       tnum = "",
+		       gen = "";
+		String cidade,
+		       bairro,
+		       rua,
+		       complemento,
+		       cnum;
 		boolean genero;
 		long nascms;
-		System.out.println();
+
 		Controle controle = new Controle();
-		System.out.println("Itens com (*) são obrigatórios");
+		System.out.println("\nItens com (*) são obrigatórios");
+
+		// Nome
 		while(nome.equals("")) {
 			System.out.print("(*)Nome: ");
 			nome = controle.texto();
 		}
 		
+		// Telefone
 		while(tnum.equals("")) {
 			System.out.print("(*)Telefone: ");
 			tnum = controle.texto();
 		}
+
 		// Data de Nascimento
 		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
 		LocalDate nasc = LocalDate.parse(controle.texto());
 		nascms = nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-		
+
+		// Genero
 		System.out.print("Genero(M/f): ");
 		gen = controle.texto();
 		genero = (gen.equals("")) || (gen.charAt(0) == 'M');
@@ -40,15 +52,19 @@ public class Agenda {
 		// Endereço
 		System.out.print("Cidade: ");
 		cidade =  controle.texto();
+
 		System.out.print("Bairro: ");
 		bairro =  controle.texto();
+
 		System.out.print("Rua: ");
 		rua =  controle.texto();
+
 		System.out.print("Numero: ");
 		cnum = controle.texto();
+
 		System.out.print("Complemento: ");
 		complemento = controle.texto();
-		
+
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
@@ -79,12 +95,38 @@ public class Agenda {
 			this.clientes.add(l+1, p);
 		}
 	}
-	
+
 	public void listar_clientes() {
 		for(int i = 0; i < this.clientes.size(); ++i) {
 			System.out.printf("%d. %s\n", i, clientes.get(i).toString());
 		}
-		
 	}
-	
+
+	public void exportar_csv() throws IOException {
+		if(clientes.isEmpty()) {
+			System.out.println("Lista de clientes vazia!");
+			return;
+		}
+
+		Controle controle = new Controle();
+		String nome_arquivo;
+
+		do {
+			System.out.print("Nome do arquivo para ser exportado: ");
+			nome_arquivo = controle.texto();
+		} while(nome_arquivo.isEmpty());
+
+		FileWriter arquivo = new FileWriter(nome_arquivo);
+		for(Pessoa p: clientes) {
+			arquivo.write(
+				p.getNome()     + ',' +
+				p.getIdade()    + ',' +
+				p.getGenero()   + ',' +
+				p.getTelefone() + '\n'
+			);
+		}
+
+		arquivo.close();
+	}
+
 }
