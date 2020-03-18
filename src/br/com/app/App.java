@@ -13,6 +13,7 @@ public class App {
 		while(op != 0) {
 			Menu.menu();
 			op = controle.opcao();
+			controle.texto(); // Le o \n do ultimo input
 			switch(op) {
 				case 0:
 					System.exit(0);
@@ -27,13 +28,46 @@ public class App {
 					// remover cliente
 					break;
 				case 4:
-					
+					// Detalhar cliente
+					System.out.print("Buscar cliente por id ou nome: ");
+					while(true) {
+						if(controle.temInt()) {
+							int id = controle.opcao();
+							
+							break;
+						}
+						else if(controle.temTexto()) {
+							String nome = controle.texto();
+							
+							break;
+						}
+						else {
+							System.out.println("Insira uma opção válida! ");
+						}
+					}
+					break;
 				case 5:
 					// listar clientes
-					System.out.println("");
-					agenda.listar_clientes();
+					System.out.print("Escolha um genero para listar (ENTER para listar todos): ");
+					String gen = controle.texto().toUpperCase();
+					while( true ) {
+						if(gen.startsWith("M")) {
+							agenda.listar_clientes(true);
+							 break;
+						}
+						else if(gen.startsWith("F")) {
+							agenda.listar_clientes(false);
+							break;
+						}
+						else if(gen.equals("")){
+							agenda.listar_clientes();
+							break;
+						}
+						else {
+							System.out.println("Insira uma opcao válida!");
+						}
+					}
 					break;
-					
 				case 6:
 					// relatório
 					break;
@@ -46,7 +80,6 @@ public class App {
 					break;
 			}
 			System.out.print("Pressione Enter para continuar...");
-			controle.texto(); // Le o \n do ultimo input
 			controle.texto(); // Espera pelo Enter
 		}
 	}
