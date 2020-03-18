@@ -52,13 +52,26 @@ public class Agenda {
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
-		this.clientes.add(p);
+		int l= 0, r = clientes.size() - 1, m;
+		char ch = p.getNome().charAt(0), ch2;
+		
+		while(l < r) {
+			m = (l + r + 1) / 2;
+			ch2 = nome.charAt(0);
+			if( ch >= ch2 ) {
+				r = m - 1;
+			}
+			else {
+				l = m;
+			}	
+		}
+		this.clientes.add(l+1, p);
 		
 	}
 	
 	public void listar_clientes() {
-		for(Pessoa p : clientes) {
-			System.out.println(p);
+		for(int i = 0; i < this.clientes.size(); ++i) {
+			System.out.printf("%d. %s\n", i, clientes.get(i).toString());
 		}
 		
 	}
