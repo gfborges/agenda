@@ -92,8 +92,14 @@ public class Pessoa {
 		
 	}
 	
+	public static String truncate(String s) {
+		if(s.length() <= 17)
+			return s;
+		return s.substring(0, 17) + "...";
+	}
+	
 	public String toString() {
-		String s  = "Nome: " + this.nome + " Tel: " + this.getTelefone();
+		String s  = "Nome: " + Pessoa.truncate(this.nome) + " Tel: " + this.getTelefone();
 		return s;
 		
 	}
