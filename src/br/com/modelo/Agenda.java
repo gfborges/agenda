@@ -21,33 +21,33 @@ public class Agenda {
 		System.out.println("Itens com (*) são obrigatórios");
 		while(nome.equals("")) {
 			System.out.print("(*)Nome: ");
-			nome = controle.texto();
+			nome = controle.texto().trim();
 		}
 		
 		while(tnum.equals("")) {
 			System.out.print("(*)Telefone: ");
-			tnum = controle.texto();
+			tnum = controle.texto().trim();
 		}
 		// Data de Nascimento
 		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
-		LocalDate nasc = LocalDate.parse(controle.texto());
+		LocalDate nasc = LocalDate.parse(controle.texto().trim());
 		nascms = nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 		
 		System.out.print("Genero(M/f): ");
-		gen = controle.texto();
-		genero = (gen.equals("")) || (gen.charAt(0) == 'M');
+		gen = controle.texto().trim();
+		genero = (gen.equals("")) || (gen.toUpperCase().startsWith("M"));
 		
 		// Endereço
 		System.out.print("Cidade: ");
-		cidade =  controle.texto();
+		cidade =  controle.texto().trim();
 		System.out.print("Bairro: ");
-		bairro =  controle.texto();
+		bairro =  controle.texto().trim();
 		System.out.print("Rua: ");
-		rua =  controle.texto();
+		rua =  controle.texto().trim();
 		System.out.print("Numero: ");
-		cnum = controle.texto();
+		cnum = controle.texto().trim();
 		System.out.print("Complemento: ");
-		complemento = controle.texto();
+		complemento = controle.texto().trim();
 		
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
@@ -80,11 +80,19 @@ public class Agenda {
 		}
 	}
 	
+	public void listar_clientes( boolean genero ) {
+		for(int i = 0; i < clientes.size(); ++i) {
+			Pessoa p = this.clientes.get(i);
+			if( !(p.isGenero() ^ genero)  ) {
+				System.out.printf("%d. %s\n", i, p.toString());
+			}
+		}
+	}
+	
 	public void listar_clientes() {
 		for(int i = 0; i < this.clientes.size(); ++i) {
 			System.out.printf("%d. %s\n", i, clientes.get(i).toString());
 		}
-		
 	}
 	
 }
