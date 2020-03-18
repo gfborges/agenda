@@ -6,7 +6,7 @@ import br.com.negocio.Menu;
 
 public class App {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Throwable {
 		int op = 10;
 		Agenda agenda = new Agenda();
 		Controle controle = new Controle();
@@ -18,8 +18,7 @@ public class App {
 					System.exit(0);
 				case 1:
 					// cadastrar cliente
-					agenda.cadastrar();
-					controle.texto();					
+					agenda.cadastrar();				
 					break;
 				case 2:
 					// editar cliente
@@ -33,8 +32,6 @@ public class App {
 					// listar clientes
 					System.out.println("");
 					agenda.listar_clientes();
-					System.out.print("Pressione Enter para continuar...");
-					controle.texto();
 					break;
 					
 				case 6:
@@ -45,9 +42,12 @@ public class App {
 					// importar / Exportar
 					break;
 				default:
-					System.out.println("Insira uma opção valida!");
+					System.out.println("\nInsira uma opção valida!");
 					break;
 			}
+			System.out.print("Pressione Enter para continuar...");
+			controle.texto(); // Le o \n do ultimo input
+			controle.texto(); // Espera pelo Enter
 		}
 	}
 
