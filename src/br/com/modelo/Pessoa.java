@@ -42,6 +42,10 @@ public class Pessoa {
 		return telefone.getNumero();
 	}
 	
+	public void setTelefone(String numero) {
+		this.telefone.setNumero(numero);
+	}
+	
 	public String getGenero() {
 		if(this.genero)
 			return "Masculino";
@@ -64,6 +68,22 @@ public class Pessoa {
 
 	public void setNasc(long nasc) {
 		this.nasc = nasc;
+	}
+	
+	public void setNasc(LocalDate nasc) {
+		this.nasc = Pessoa.toMillis(nasc);
+	}
+	
+	public void setNasc(String nasc) {
+		this.nasc = Pessoa.toMillis(nasc);
+	}
+	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public int getIdade() {
@@ -93,9 +113,17 @@ public class Pessoa {
 	
 	public String toString() {
 		String idade = String.valueOf(this.getIdade());
-		String s  = "Nome: " + Pessoa.truncate(this.nome) +","+ idade + " Tel: " + this.getTelefone();
+		String s  = "Nome: " + Pessoa.truncate(this.nome) +", "+ idade +", "+ "Tel: " + this.getTelefone();
 		return s;
 	}
+	 public static long toMillis(String sdata) {
+		 LocalDate data = LocalDate.parse(sdata);
+		 return Pessoa.toMillis(data);
+	 }
+	 
+	 public static long toMillis(LocalDate data) {
+		 return data.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+	 }
 	
 	// Retorna o endereço da pessoa no formato CSV
 	public String getEnderecoCSV() {

@@ -1,31 +1,31 @@
 package br.com.modelo;
 
-import java.util.List;
-import br.com.negocio.Controle;
-import java.time.ZoneId;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Agenda {
+import br.com.negocio.Controle;
+
+public class Agenda  {
 	List<Pessoa> clientes = new ArrayList<Pessoa>();
-	
+
 	public void cadastrar() {
 		String nome = "",
 		       tnum = "",
-		       gen = "";
+		       gen = "",
+		       nascdt = "";
 		String cidade,
 		       bairro,
 		       rua,
 		       complemento,
 		       cnum;
 		boolean genero;
-		long nascms;
-
+		long nascms = 0;
 		Controle controle = new Controle();
 		System.out.println("\nItens com (*) são obrigatórios");
 
@@ -43,11 +43,13 @@ public class Agenda {
 
 		// Data de Nascimento
 		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
-		nascms = data_para_milisegundos(controle.texto());
+		nascdt = controle.texto();
+		if(!nascdt.equals(""))
+			nascms = data_para_milisegundos(nascdt);
 
 		// Genero
 		System.out.print("Genero(M/f): ");
-		gen = controle.texto().trim();
+		gen = controle.texto();
 		genero = (gen.equals("")) || (gen.toUpperCase().startsWith("M"));
 		
 		// Endereço
@@ -65,7 +67,7 @@ public class Agenda {
 
 		System.out.print("Complemento: ");
 		complemento = controle.texto();
-		
+
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
@@ -212,4 +214,125 @@ public class Agenda {
 		}
 	}
 
+	public int busca(String busca) {
+		for(int i = 0; i < this.clientes.size(); ++i ) {
+			Pessoa p = this.clientes.get(i);
+			if( p.getNome().toLowerCase().startsWith(busca) ) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public boolean editar(String busca) {
+		int i = this.busca(busca);
+		if (i < 0) {
+			return false;
+		}
+		return this.editar(i);
+		
+	}
+	
+	public boolean editar(int i) {
+		if (i < 0 || i >= this.clientes.size() ) {
+			System.out.printf("%d nao e um id valido\n", i);
+			return false;
+		}
+		Controle controle = new Controle();
+		Pessoa p = this.clientes.get(i);
+		
+		String nome,
+			   tel,
+			   data,
+			   gen;
+		
+		String cidade,
+			   bairro,
+			   rua,
+			   numero,
+			   complemento;
+		
+		System.out.println("Deixe em branco os campos que não precisam de alteração");
+		
+		// Nome
+		System.out.println("Nome: " + p.getNome());
+		System.out.print("Nome: ");
+		nome = controle.texto();
+		if(!nome.equals("")) {
+			p.setNome(nome);
+		}
+		
+		// Telefone
+		System.out.println("Telefone: " + p.getTelefone() );
+		System.out.print("Telefone: " );
+		tel = controle.texto();
+		if(!tel.equals("")) {
+			p.setTelefone(tel);
+		}
+		
+		// Data de nascimento
+		System.out.println("Data de nascimento: " + p.getNasc() );
+		System.out.print("Data de nascimento: ");
+		data = controle.texto();
+		if(!data.contentEquals("")) {
+			p.setNasc(data);
+		}
+		
+		// Genero
+		System.out.println("Genero: " + p.getGenero() );
+		System.out.print("Genero: ");
+		gen = controle.texto().trim().toUpperCase();
+		if(!gen.equals("")) {
+			while(true) {
+				if( gen.startsWith("M") ) {
+					p.setGenero(true);
+					break;
+				}
+				else if( gen.startsWith("F") ) {
+					p.setGenero(false);
+					break;
+				}
+				System.out.println("Insira uma opção valida");
+			}
+		}
+		
+		// Endereço
+		System.out.println("Cidade: " + p.getEndereco().getCidade());
+		System.out.print("Cidade: ");
+		cidade = controle.texto();
+		if(!cidade.equals("")) {
+			cidade = p.getEndereco().getCidade();
+		}
+		
+		System.out.println("Bairro: " + p.getEndereco().getBairro());
+		System.out.print("Bairro: ");
+		bairro = controle.texto();
+		if(!bairro.equals("")) {
+			bairro = p.getEndereco().getBairro();
+		}
+		
+		System.out.println("Rua: " + p.getEndereco().getRua());
+		System.out.print("Rua: ");
+		rua = controle.texto();
+		if(!rua.equals("")) {
+			rua = p.getEndereco().getRua();
+		}
+		
+		System.out.println("Numero: " + p.getEndereco().getNumero());
+		System.out.print("Numero: ");
+		numero = controle.texto();
+		if(!numero.equals("")) {
+			numero = p.getEndereco().getNumero();
+		}
+		
+		System.out.println("Cidade: " + p.getEndereco().getComplemento());
+		System.out.print("Complemento: ");
+		complemento = controle.texto();
+		if(!complemento.equals("")) {
+			complemento = p.getEndereco().getComplemento();
+		}
+		
+		return true;
+	}
+	
 }
