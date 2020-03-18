@@ -11,9 +11,10 @@ public class App {
 		Agenda agenda = new Agenda();
 		Controle controle = new Controle();
 		while(op != 0) {
+			int id = -1;
+			String nome = "";
 			Menu.menu();
 			op = controle.opcao();
-			controle.texto(); // Le o \n do ultimo input
 			switch(op) {
 				case 0:
 					System.exit(0);
@@ -23,22 +24,39 @@ public class App {
 					break;
 				case 2:
 					// editar cliente
+					while(true) {
+						System.out.print("Cliente que deseja editar (id/nome): ");
+						if(controle.temInt()) {
+							id = controle.opcao();
+							break;
+						}
+						else if(controle.temTexto()){
+							nome = controle.texto().toLowerCase();
+							break;
+						}else {
+							System.out.println("Insira uma opção válida!");
+						}
+					}
+					if(id >= 0) {
+						agenda.editar(id);
+					}
+					else {
+						agenda.editar(nome);
+					}
 					break;
 				case 3:
 					// remover cliente
 					break;
 				case 4:
 					// Detalhar cliente
-					System.out.print("Buscar cliente por id ou nome: ");
 					while(true) {
+						System.out.print("Buscar cliente por id ou nome: ");
 						if(controle.temInt()) {
-							int id = controle.opcao();
-							
+							id = controle.opcao();
 							break;
 						}
 						else if(controle.temTexto()) {
-							String nome = controle.texto();
-							
+							nome = controle.texto();
 							break;
 						}
 						else {
@@ -48,9 +66,9 @@ public class App {
 					break;
 				case 5:
 					// listar clientes
-					System.out.print("Escolha um genero para listar (ENTER para listar todos): ");
-					String gen = controle.texto().toUpperCase();
 					while( true ) {
+						System.out.print("Escolha um genero para listar (ENTER para listar todos): ");
+						String gen = controle.texto().toUpperCase();
 						if(gen.startsWith("M")) {
 							agenda.listar_clientes(true);
 							 break;
@@ -63,9 +81,8 @@ public class App {
 							agenda.listar_clientes();
 							break;
 						}
-						else {
-							System.out.println("Insira uma opcao válida!");
-						}
+						System.out.println("Insira uma opcao válida!");
+						
 					}
 					break;
 				case 6:
@@ -79,7 +96,7 @@ public class App {
 					System.out.println("\nInsira uma opção valida!");
 					break;
 			}
-			System.out.print("Pressione Enter para continuar...");
+			System.out.println("Pressione Enter para continuar...");
 			controle.texto(); // Espera pelo Enter
 		}
 	}

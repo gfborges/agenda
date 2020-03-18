@@ -10,12 +10,13 @@ public class Controle {
 	}
 	
 	public String texto() {
-		String s = scanner.nextLine();
+		String s = scanner.nextLine().trim();
 		return s;
 	}
 	
 	public int opcao() {
 		int i = scanner.nextInt();
+		scanner.nextLine();
 		return i;
 	}
 	
