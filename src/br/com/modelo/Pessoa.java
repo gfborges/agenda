@@ -38,17 +38,6 @@ public class Pessoa {
 		this.nome = nome;
 	}
 	
-	/**
-	 * Retorna o sexo do cliente
-	 *<p>	
-	 * Retorna o sexo do cliente em uma String:
-	 * true : "Masculino"
-	 * false : "Feminino"
-	 *</p>
-	 *	
-	 * @return Sexo do cliente (T(M) / F(F))
-	 */
-	
 	public String getTelefone() {
 		return telefone.getNumero();
 	}
@@ -61,6 +50,10 @@ public class Pessoa {
 
 	public void setGenero(boolean genero) {
 		this.genero = genero;
+	}
+	
+	public boolean isGenero() {
+		return this.genero;
 	}
 	
 	public LocalDate getNasc() {
@@ -99,7 +92,8 @@ public class Pessoa {
 	}
 	
 	public String toString() {
-		String s  = "Nome: " + Pessoa.truncate(this.nome) + " Tel: " + this.getTelefone();
+		String idade = String.valueOf(this.getIdade());
+		String s  = "Nome: " + Pessoa.truncate(this.nome) +","+ idade + " Tel: " + this.getTelefone();
 		return s;
 		
 	}
