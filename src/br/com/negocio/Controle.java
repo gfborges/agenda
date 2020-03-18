@@ -22,5 +22,12 @@ public class Controle {
 	public void fim() throws Throwable {
 		scanner.close();
 	}
+	
+	public boolean temInt() {
+		return scanner.hasNextInt();
+	}
+	public boolean temTexto() {
+		return scanner.hasNextLine();
+	}
 
 }
