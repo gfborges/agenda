@@ -52,21 +52,32 @@ public class Agenda {
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
-		int l= 0, r = clientes.size() - 1, m;
-		char ch = p.getNome().charAt(0), ch2;
-		
-		while(l < r) {
-			m = (l + r + 1) / 2;
-			ch2 = nome.charAt(0);
-			if( ch >= ch2 ) {
-				r = m - 1;
-			}
-			else {
-				l = m;
-			}	
+		if(clientes.isEmpty()) {
+			//Caso esteja vazia insere no final
+			this.clientes.add(p);
 		}
-		this.clientes.add(l+1, p);
-		
+		else if(p.getNome().compareToIgnoreCase( clientes.get(0).getNome() ) < 0 ) {
+			// Caso não tenha um predecessor, insere no começo
+			this.clientes.add(0, p);
+		}
+		else {
+			// Busca binária por predecessor
+			int l= 0, r = clientes.size() - 1, m;
+			while(l < r) {
+				m = (l + r + 1) / 2;
+				String clt = clientes.get(m).getNome();
+				int comp = nome.compareToIgnoreCase(clt);
+				// remove todos que são maiores que m (inclusive)
+				if( comp <= 0 ) {
+					r = m - 1;
+				}
+				// remove todos os menores que m (exclisivo)
+				else {
+					l = m;
+				}	
+			}
+			this.clientes.add(l+1, p);
+		}
 	}
 	
 	public void listar_clientes() {
