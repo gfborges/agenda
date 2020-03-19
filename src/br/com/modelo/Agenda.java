@@ -41,8 +41,7 @@ public class Agenda {
 
 		// Data de Nascimento
 		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
-		LocalDate nasc = LocalDate.parse(controle.texto());
-		nascms = nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		nascms = data_para_milisegundos(controle.texto());
 
 		// Genero
 		System.out.print("Genero(M/f): ");
@@ -99,6 +98,11 @@ public class Agenda {
 			}
 			this.clientes.add(l+1, p);
 		}
+	}
+	
+	private static long data_para_milisegundos(String data) {
+		LocalDate nasc = LocalDate.parse(data);
+		return nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 	}
 	
 	public void listar_clientes() {
