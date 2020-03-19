@@ -119,10 +119,11 @@ public class Agenda {
 		FileWriter arquivo = new FileWriter(nome_arquivo);
 		for(Pessoa p: clientes) {
 			arquivo.write(
-				p.getNome()     + ',' +
-				p.getIdade()    + ',' +
-				p.getGenero()   + ',' +
-				p.getTelefone() + '\n'
+				p.getNome()     + ", " +
+				p.getTelefone() + ", " +
+				p.getGenero()   + ", " +
+				p.getIdade()    + ", " +
+				p.getEnderecoCSV()
 			);
 		}
 
