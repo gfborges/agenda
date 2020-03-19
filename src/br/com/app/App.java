@@ -44,14 +44,14 @@ public class App {
 					try {
 						agenda.exportar_csv();
 					} catch (IOException e) {
-						e.printStackTrace();
+						System.out.println("Ocorreu um erro ao exportar para arquivo! Erro: " + e.getMessage());
 					}
 					break;
 				default:
 					System.out.println("\nInsira uma opção valida!");
 					break;
 			}
-			System.out.print("Pressione Enter para continuar...");
+			System.out.print("\nPressione Enter para continuar...");
 			controle.texto(); // Le o \n do ultimo input
 			controle.texto(); // Espera pelo Enter
 		}

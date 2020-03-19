@@ -28,16 +28,16 @@ public class Agenda {
 		System.out.println("\nItens com (*) são obrigatórios");
 
 		// Nome
-		while(nome.equals("")) {
+		do {
 			System.out.print("(*)Nome: ");
 			nome = controle.texto();
-		}
+		} while(nome.equals(""));
 		
 		// Telefone
-		while(tnum.equals("")) {
+		do {
 			System.out.print("(*)Telefone: ");
 			tnum = controle.texto();
-		}
+		} while(tnum.equals(""));
 
 		// Data de Nascimento
 		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
@@ -123,7 +123,7 @@ public class Agenda {
 		do {
 			System.out.print("Nome do arquivo para ser exportado: ");
 			nome_arquivo = controle.texto();
-		} while(nome_arquivo.isEmpty());
+		} while(nome_arquivo.equals(""));
 
 		FileWriter arquivo = new FileWriter(nome_arquivo);
 		for(Pessoa p: clientes) {
