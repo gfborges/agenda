@@ -68,6 +68,11 @@ public class Agenda {
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
+		
+		adicionar_ordenado(p);
+	}
+
+	private void adicionar_ordenado(Pessoa p) {
 		if(clientes.isEmpty()) {
 			//Caso esteja vazia insere no final
 			this.clientes.add(p);
@@ -82,7 +87,7 @@ public class Agenda {
 			while(l < r) {
 				m = (l + r + 1) / 2;
 				String clt = clientes.get(m).getNome();
-				int comp = nome.compareToIgnoreCase(clt);
+				int comp = p.getNome().compareToIgnoreCase(clt);
 				// remove todos que são maiores que m (inclusive)
 				if( comp <= 0 ) {
 					r = m - 1;
@@ -95,7 +100,7 @@ public class Agenda {
 			this.clientes.add(l+1, p);
 		}
 	}
-
+	
 	public void listar_clientes() {
 		for(int i = 0; i < this.clientes.size(); ++i) {
 			System.out.printf("%d. %s\n", i, clientes.get(i).toString());
