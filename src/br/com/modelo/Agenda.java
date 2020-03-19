@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class Agenda {
 	List<Pessoa> clientes = new ArrayList<Pessoa>();
@@ -131,12 +133,72 @@ public class Agenda {
 				p.getNome()     + ", " +
 				p.getTelefone() + ", " +
 				p.getGenero()   + ", " +
-				p.getNasc()    + ", " +
+				p.getNasc()     + ", " +
 				p.getEnderecoCSV()
 			);
 		}
 
 		arquivo.close();
+	}
+
+	public void importar_csv()throws IOException {
+		Controle controle = new Controle();
+
+		// se a lista não estiver vazia, pergunta ao usuário se ele deseja apagar o conteúdo atual para importar o arquivo
+		if(!clientes.isEmpty()) {
+			System.out.println("Sua lista não está vazia, deseja apagar o conteúdo atual e importar o arquivo? (1 = sim) ");
+
+			// adquire a resposta do usuário, se for diferente de 1(sim), a operação é cancelada e a sai do método
+			int resposta = controle.opcao();
+			controle.texto(); // lê o '\n'
+			if(resposta != 1) {
+				System.out.println("Cancelado importação do arquivo!");
+				return;
+			}
+
+			clientes.clear(); // limpa a lista
+		}
+
+		String nome_arquivo;
+		do {
+			System.out.print("Nome do arquivo a ser importado: ");
+			nome_arquivo = controle.texto();
+		} while(nome_arquivo.equals(""));
+
+
+		try {
+			BufferedReader arquivo = new BufferedReader( new FileReader(nome_arquivo) );
+			String linha = arquivo.readLine();
+
+			// percorre cada linha do arquivo
+			while(linha != null) {
+
+				// faz parser de cada linha, separando as informações do cliente e colocando em um array de String
+				String[] dados_cliente = linha.split(", ");
+				boolean genero = dados_cliente[2].contentEquals("Masculino");
+				long nascimento = data_para_milisegundos(dados_cliente[3]);
+
+				// cria objeto Pessoa e adiciona na lista
+				adicionar_ordenado(new Pessoa(
+					dados_cliente[0], // nome
+					dados_cliente[1], // telefone
+					dados_cliente[4], // cidade
+					dados_cliente[5], // bairro
+					dados_cliente[6], // rua
+					dados_cliente[7], // numero
+					dados_cliente[8], // complemento
+					nascimento,
+					genero
+				  )
+				);
+
+				linha = arquivo.readLine(); // próxima linha
+			}
+
+			arquivo.close();
+		} catch (Exception e) {
+			System.out.println("Não foi possível abrir o arquivo!");
+		}
 	}
 
 }
