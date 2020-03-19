@@ -101,7 +101,14 @@ public class Pessoa {
 	public String toString() {
 		String s  = "Nome: " + Pessoa.truncate(this.nome) + " Tel: " + this.getTelefone();
 		return s;
-		
 	}
 	
+	// Retorna o endereço da pessoa no formato CSV
+	public String getEnderecoCSV() {
+		return endereco.getCidade() + ", " + 
+			   endereco.getBairro() + ", " + 
+			   endereco.getRua()    + ", " + 
+			   endereco.getNumero() + ", " +
+			   endereco.getComplemento();
+	}
 }
