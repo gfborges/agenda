@@ -29,13 +29,13 @@ public class Agenda {
 
 		// Nome
 		do {
-			System.out.print("(*)Nome: ");
+			System.out.print("(*) Nome: ");
 			nome = controle.texto();
 		} while(nome.equals(""));
 		
 		// Telefone
 		do {
-			System.out.print("(*)Telefone: ");
+			System.out.print("(*) Telefone: ");
 			tnum = controle.texto();
 		} while(tnum.equals(""));
 
@@ -131,7 +131,7 @@ public class Agenda {
 				p.getNome()     + ", " +
 				p.getTelefone() + ", " +
 				p.getGenero()   + ", " +
-				p.getIdade()    + ", " +
+				p.getNasc()    + ", " +
 				p.getEnderecoCSV()
 			);
 		}
