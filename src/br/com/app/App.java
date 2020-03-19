@@ -47,6 +47,9 @@ public class App {
 						System.out.println("Ocorreu um erro ao exportar para arquivo! Erro: " + e.getMessage());
 					}
 					break;
+				case 8:
+					agenda.importar_csv();
+					break;
 				default:
 					System.out.println("\nInsira uma opção valida!");
 					break;
