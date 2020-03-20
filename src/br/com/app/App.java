@@ -88,12 +88,9 @@ public class App {
 					System.out.println("\nInsira uma opção valida!");
 					break;
 			}
-<<<<<<< HEAD
-			System.out.print("Pressione Enter para continuar...");
-=======
+
 			System.out.print("\nPressione Enter para continuar...");
 			controle.texto(); // Le o \n do ultimo input
->>>>>>> 50100a16918f775229248f5f08ec374ab5d526cd
 			controle.texto(); // Espera pelo Enter
 		}
 	}

@@ -27,23 +27,6 @@ public class Agenda {
 		long nascms;
 
 		Controle controle = new Controle();
-<<<<<<< HEAD
-		System.out.println("Itens com (*) são obrigatórios");
-		while(nome.equals("")) {
-			System.out.print("(*)Nome: ");
-			nome = controle.texto().trim();
-		}
-		
-		while(tnum.equals("")) {
-			System.out.print("(*)Telefone: ");
-			tnum = controle.texto().trim();
-		}
-		// Data de Nascimento
-		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
-		LocalDate nasc = LocalDate.parse(controle.texto().trim());
-		nascms = nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-		
-=======
 		System.out.println("\nItens com (*) são obrigatórios");
 
 		// Nome
@@ -63,25 +46,12 @@ public class Agenda {
 		nascms = data_para_milisegundos(controle.texto());
 
 		// Genero
->>>>>>> 50100a16918f775229248f5f08ec374ab5d526cd
 		System.out.print("Genero(M/f): ");
 		gen = controle.texto().trim();
 		genero = (gen.equals("")) || (gen.toUpperCase().startsWith("M"));
 		
 		// Endereço
 		System.out.print("Cidade: ");
-<<<<<<< HEAD
-		cidade =  controle.texto().trim();
-		System.out.print("Bairro: ");
-		bairro =  controle.texto().trim();
-		System.out.print("Rua: ");
-		rua =  controle.texto().trim();
-		System.out.print("Numero: ");
-		cnum = controle.texto().trim();
-		System.out.print("Complemento: ");
-		complemento = controle.texto().trim();
-		
-=======
 		cidade =  controle.texto();
 
 		System.out.print("Bairro: ");
@@ -95,8 +65,7 @@ public class Agenda {
 
 		System.out.print("Complemento: ");
 		complemento = controle.texto();
-
->>>>>>> 50100a16918f775229248f5f08ec374ab5d526cd
+		
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
@@ -133,7 +102,7 @@ public class Agenda {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	public void listar_clientes( boolean genero ) {
 		for(int i = 0; i < clientes.size(); ++i) {
 			Pessoa p = this.clientes.get(i);
@@ -141,11 +110,12 @@ public class Agenda {
 				System.out.printf("%d. %s\n", i, p.toString());
 			}
 		}
-=======
+	}
+
 	private static long data_para_milisegundos(String data) {
 		LocalDate nasc = LocalDate.parse(data);
 		return nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
->>>>>>> 50100a16918f775229248f5f08ec374ab5d526cd
+
 	}
 	
 	public void listar_clientes() {
