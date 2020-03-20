@@ -335,8 +335,13 @@ public class Agenda  {
 		if(!complemento.equals("")) {
 			complemento = p.getEndereco().getComplemento();
 		}
-		
+		remover(i);
+		adicionar_ordenado(p);
 		return true;
+	}
+	
+	public void remover(int i) {
+		this.clientes.remove(i);
 	}
 	
 }
