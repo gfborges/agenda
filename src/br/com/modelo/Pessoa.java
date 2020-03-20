@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pessoa {
 	private String nome;
@@ -11,6 +13,7 @@ public class Pessoa {
 	private Endereco endereco;
 	private long nasc;
 	private boolean genero;
+	private int[] hist_produtos= new int[8];
 	
 	public Pessoa(String nome, Telefone telefone, Endereco endereco, long nascms, boolean genero) {
 		super();
@@ -132,5 +135,9 @@ public class Pessoa {
 			   endereco.getRua()    + ", " + 
 			   endereco.getNumero() + ", " +
 			   endereco.getComplemento();
+	}
+	
+	public void nova_compra(int i, int quantidade) {
+		this.hist_produtos[i] += quantidade;
 	}
 }

@@ -26,19 +26,17 @@ public class App {
 					break;
 				case 2:
 					// editar cliente
-					while(true) {
+					do {
 						System.out.print("Cliente que deseja editar (id/nome): ");
 						if(controle.temInt()) {
 							id = controle.opcao();
-							break;
 						}
 						else if(controle.temTexto()){
 							nome = controle.texto().toLowerCase();
-							break;
 						}else {
 							System.out.println("Insira uma opção válida!");
 						}
-					}
+					} while(id < 0 && nome.equals(""));
 					if(id >= 0) {
 						agenda.editar(id);
 					}
@@ -48,23 +46,47 @@ public class App {
 					break;
 				case 3:
 					// remover cliente
-					break;
-				case 4:
-					// Detalhar cliente
-					while(true) {
-						System.out.print("Buscar cliente por id ou nome: ");
+					do{
+						System.out.print("Cliente que deseja remover (id/nome): ");
 						if(controle.temInt()) {
 							id = controle.opcao();
-							break;
 						}
-						else if(controle.temTexto()) {
-							nome = controle.texto();
-							break;
+						else if(controle.temTexto()){
+							nome = controle.texto().toLowerCase();
+						}else {
+							System.out.println("Insira uma opção válida!");
 						}
-						else {
-							System.out.println("Insira uma opção válida! ");
-						}
+					}while(id < 0 || nome.equals(""));
+					if(id >= 0) {
+						agenda.remover(id);
 					}
+					else {
+						agenda.remover(nome);
+					}
+					break;
+				case 4:
+					// Nova compra
+					
+					// Procurar cliente
+					do {
+						System.out.print("Procure pelo cliente que fez a compra (id/nome): ");
+						if(controle.temInt()) {
+							id = controle.opcao();
+							controle.texto();
+						}
+						else if(controle.temTexto()){
+							nome = controle.texto().toLowerCase();
+						}else {
+							System.out.println("Insira uma opção válida!");
+						}
+					} while(id < 0 && nome.equals(""));
+					if(id >= 0) {
+						agenda.input_nova_compra(id);
+					}
+					else {
+						agenda.input_nova_compra(nome);
+					}
+					
 					break;
 				case 5:
 					// listar clientes
@@ -90,7 +112,6 @@ public class App {
 				case 6:
 					// relatório
 					break;
-					
 				case 7:
 					try {
 						agenda.exportar_csv();

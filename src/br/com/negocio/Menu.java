@@ -6,7 +6,7 @@ public class Menu {
 		System.out.println("| [1] Cadastrar cliente        |");
 		System.out.println("| [2] Editar cliente           |");
 		System.out.println("| [3] Remover cliente          |");
-		System.out.println("| [4] Buscar cliente           |");
+		System.out.println("| [4] Nova compra              |");
 		System.out.println("| [5] Listar clientes          |");
 		System.out.println("| [6] Relatório de clientes    |");
 		System.out.println("| [7] Exportar clientes        |");
@@ -14,5 +14,10 @@ public class Menu {
 		System.out.println("| [0] Sair                     |");
 		System.out.println("+------------------------------+");
 		System.out.print("Insira uma opção: ");
+	}
+	public static boolean confirmar() {
+		Controle controle = new Controle();
+		String opcao = controle.texto().toLowerCase();
+		return opcao.startsWith("y") || opcao.equals("");
 	}
 }

@@ -10,10 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.negocio.Controle;
+import br.com.negocio.Menu;
 
 public class Agenda  {
-	List<Pessoa> clientes = new ArrayList<Pessoa>();
-
+	private List<Pessoa> clientes = new ArrayList<Pessoa>();
+	private String[] produtos = {"Shampoo",
+								 "Condicionador",
+								 "Pasta de dente",
+								 "Enxaguante bucal",
+								 "Maquiagem",
+								 "Alicate cortador de unha",
+								 "Tinta para cabelo",
+								 "Descolorante de cabelo"};
 	public void cadastrar() {
 		String nome = "",
 		       tnum = "",
@@ -147,7 +155,7 @@ public class Agenda  {
 				p.getTelefone() + ", " +
 				p.getGenero()   + ", " +
 				p.getNasc()     + ", " +
-				p.getEnderecoCSV()
+				p.getEnderecoCSV() + "\n"
 			);
 		}
 
@@ -215,16 +223,15 @@ public class Agenda  {
 	}
 
 	public int busca(String busca) {
-		Controle controle = new Controle();
 		for(int i = 0; i < this.clientes.size(); ++i ) {
 			Pessoa p = this.clientes.get(i);
 			if( p.getNome().toLowerCase().startsWith(busca) ) {
 				System.out.println("Está procurando " + p.getNome() + "?(Y/n)");
-				String confirmar = controle.texto().toLowerCase();
-				if(confirmar.startsWith("y") || confirmar.equals(""))
+				if(Menu.confirmar())
 					return i;
 			}
 		}
+		System.out.println("Cliente no encontrado");
 		return -1;
 	}
 	
@@ -301,35 +308,41 @@ public class Agenda  {
 		}
 		
 		// Endereço
-		System.out.println("Cidade: " + p.getEndereco().getCidade());
+		cidade = p.getEndereco().getCidade();
+		if(!cidade.equals(""))
+			System.out.println("Cidade: " + cidade);
 		System.out.print("Cidade: ");
 		cidade = controle.texto();
 		if(!cidade.equals("")) {
 			cidade = p.getEndereco().getCidade();
 		}
 		
-		System.out.println("Bairro: " + p.getEndereco().getBairro());
+		bairro = p.getEndereco().getBairro();
+		if(!bairro.equals(""))
+			System.out.println("Bairro: " + bairro);
 		System.out.print("Bairro: ");
 		bairro = controle.texto();
 		if(!bairro.equals("")) {
 			bairro = p.getEndereco().getBairro();
 		}
-		
-		System.out.println("Rua: " + p.getEndereco().getRua());
+		rua = p.getEndereco().getRua();
+		if(!rua.equals(""))
+			System.out.println("Rua: " + rua);
 		System.out.print("Rua: ");
 		rua = controle.texto();
 		if(!rua.equals("")) {
 			rua = p.getEndereco().getRua();
 		}
-		
-		System.out.println("Numero: " + p.getEndereco().getNumero());
+		numero = p.getEndereco().getNumero();
+			System.out.println("Numero: " + numero);
 		System.out.print("Numero: ");
 		numero = controle.texto();
 		if(!numero.equals("")) {
 			numero = p.getEndereco().getNumero();
 		}
-		
-		System.out.println("Cidade: " + p.getEndereco().getComplemento());
+		complemento = p.getEndereco().getComplemento();
+		if(!complemento.equals(""))
+			System.out.println("Complemento: " + complemento);
 		System.out.print("Complemento: ");
 		complemento = controle.texto();
 		if(!complemento.equals("")) {
@@ -343,5 +356,62 @@ public class Agenda  {
 	public void remover(int i) {
 		this.clientes.remove(i);
 	}
+	public void remover(String nome) {
+		int i = busca(nome);
+		if(i >=0 && i < this.clientes.size()  )
+			remover(i);
+		else
+			System.out.println("Cliente nao encontrado");
+	}
 	
+	public void listar_produtos() {
+		System.out.println("\n+---------- PRODUTOS ----------+");
+		for(int i = 0; i < this.produtos.length; ++i) {
+			int x = 25 - this.produtos[i].length();
+		    String s = "%"+x+"s|\n";
+			System.out.printf(  "| [%d] %s", i, this.produtos[i]);
+			System.out.printf(s, " ");
+		}
+		System.out.println("+------------------------------+");
+	}
+	
+	public void nova_compra(String cliente,  int produto, int quantidade) {
+		int i = this.busca(cliente);
+		nova_compra(i, produto, quantidade);
+	};
+	
+	public void nova_compra(int i,  int produto, int quantidade) {
+		Pessoa p = this.clientes.get(i);
+		p.nova_compra(produto , quantidade);	
+		System.out.printf("%dx %s adicionados no historico de compras de %s\n",
+						   quantidade,
+						   this.produtos[produto],
+						   p.getNome());
+	};
+	
+	public void input_nova_compra(int id) {
+		Controle controle = new Controle();
+		// Detalhes da compra
+		this.listar_produtos();
+		System.out.print("Selecione um produto para adicionar: ");
+		int produto = controle.opcao();
+		System.out.print("Quantidade comprada: ");
+		int quantidade = controle.opcao();
+		
+		this.nova_compra(id, produto, quantidade);
+		
+		System.out.print("Deseja adicionar a compra de outro produto nesse usuário (Y/n)?");
+		if (Menu.confirmar()) {
+			input_nova_compra(id);
+		}
+		
+	}
+	
+	public void input_nova_compra(String nome) {
+		int id = this.busca(nome);
+		if(id >= 0) {
+			this.input_nova_compra(id);
+		}
+		
+	}
 }
