@@ -95,7 +95,14 @@ public class Pessoa {
 		String idade = String.valueOf(this.getIdade());
 		String s  = "Nome: " + Pessoa.truncate(this.nome) +","+ idade + " Tel: " + this.getTelefone();
 		return s;
-		
 	}
 	
+	// Retorna o endereço da pessoa no formato CSV
+	public String getEnderecoCSV() {
+		return endereco.getCidade() + ", " + 
+			   endereco.getBairro() + ", " + 
+			   endereco.getRua()    + ", " + 
+			   endereco.getNumero() + ", " +
+			   endereco.getComplemento();
+	}
 }

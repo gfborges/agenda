@@ -14,5 +14,25 @@ public class Endereco {
 		this.numero = numero;
 		this.complemento = complemento;
 	}
+
+	public String getCidade() {
+		return cidade;
+	}
 	
+	public String getBairro() {
+		return bairro;
+	}
+
+	public String getRua() {
+		return rua;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
 }

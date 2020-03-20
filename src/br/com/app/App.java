@@ -1,5 +1,7 @@
 package br.com.app;
 
+import java.io.IOException;
+
 import br.com.modelo.Agenda;
 import br.com.negocio.Controle;
 import br.com.negocio.Menu;
@@ -73,13 +75,25 @@ public class App {
 					break;
 					
 				case 7:
-					// importar / Exportar
+					try {
+						agenda.exportar_csv();
+					} catch (IOException e) {
+						System.out.println("Ocorreu um erro ao exportar para arquivo! Erro: " + e.getMessage());
+					}
+					break;
+				case 8:
+					agenda.importar_csv();
 					break;
 				default:
 					System.out.println("\nInsira uma opção valida!");
 					break;
 			}
+<<<<<<< HEAD
 			System.out.print("Pressione Enter para continuar...");
+=======
+			System.out.print("\nPressione Enter para continuar...");
+			controle.texto(); // Le o \n do ultimo input
+>>>>>>> 50100a16918f775229248f5f08ec374ab5d526cd
 			controle.texto(); // Espera pelo Enter
 		}
 	}
