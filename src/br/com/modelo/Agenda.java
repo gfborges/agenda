@@ -215,10 +215,14 @@ public class Agenda  {
 	}
 
 	public int busca(String busca) {
+		Controle controle = new Controle();
 		for(int i = 0; i < this.clientes.size(); ++i ) {
 			Pessoa p = this.clientes.get(i);
 			if( p.getNome().toLowerCase().startsWith(busca) ) {
-				return i;
+				System.out.println("Está procurando " + p.getNome() + "?(Y/n)");
+				String confirmar = controle.texto().toLowerCase();
+				if(confirmar.startsWith("y") || confirmar.equals(""))
+					return i;
 			}
 		}
 		return -1;
