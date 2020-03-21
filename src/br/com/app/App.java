@@ -72,7 +72,6 @@ public class App {
 						System.out.print("Procure pelo cliente que fez a compra (id/nome): ");
 						if(controle.temInt()) {
 							id = controle.opcao();
-							controle.texto();
 						}
 						else if(controle.temTexto()){
 							nome = controle.texto().toLowerCase();
