@@ -4,8 +4,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Pessoa {
 	private String nome;
@@ -99,13 +97,18 @@ public class Pessoa {
 	
 	public String info() {
 		String data = this.getNasc().toString();
-		String s = "Nome: " + this.nome + "\n" +
-				   "Telefone: " + this.getTelefone() + "\n" +
-				   "Data de Nascimento: " + data + "\n" +
-				   "Genero: " + this.getGenero() + "\n" +
-				   "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
-		return s;
-		
+		String endereco_info = this.endereco.info();
+		String s = "\n+------------------------------+\n";
+		s += "Nome: " + this.nome + "\n" +
+			 "Telefone: " + this.getTelefone() + "\n" +
+			 "Data de Nascimento: " + data + "\n" +
+			 "Genero: " + this.getGenero() + "\n";
+		if(!endereco_info.isEmpty()) {
+			s += "+------------------------------+\n";
+			s += endereco_info;
+		}
+		s += "+------------------------------+";
+		return s;		
 	}
 	
 	public static String truncate(String s) {
@@ -140,4 +143,13 @@ public class Pessoa {
 	public void nova_compra(int i, int quantidade) {
 		this.hist_produtos[i] += quantidade;
 	}
+	
+	public int getHist_produtos(int i) {
+		return hist_produtos[i];
+	}
+	
+	public int[] getHist_produtos() {
+		return hist_produtos;
+	}
+	
 }

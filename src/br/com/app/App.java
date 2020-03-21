@@ -111,6 +111,7 @@ public class App {
 					break;
 				case 6:
 					// relatório
+					agenda.relatorio();
 					break;
 				case 7:
 					try {

@@ -120,6 +120,7 @@ public class Agenda  {
 				System.out.printf("%d. %s\n", i, p.toString());
 			}
 		}
+		this.perguntar_detalhar();
 	}
 
 	private static long data_para_milisegundos(String data) {
@@ -131,6 +132,13 @@ public class Agenda  {
 	public void listar_clientes() {
 		for(int i = 0; i < this.clientes.size(); ++i) {
 			System.out.printf("%d. %s\n", i, clientes.get(i).toString());
+		}
+		System.out.print("Deseja detalhar um dos clientes (Y/n)?");
+		if(Menu.confirmar()) {
+			Controle  controle = new Controle();
+			System.out.print("id do cliente:");
+			int id = controle.opcao();
+			this.detalhar(id);
 		}
 	}
 
@@ -314,7 +322,7 @@ public class Agenda  {
 		System.out.print("Cidade: ");
 		cidade = controle.texto();
 		if(!cidade.equals("")) {
-			cidade = p.getEndereco().getCidade();
+			p.getEndereco().setCidade(cidade);
 		}
 		
 		bairro = p.getEndereco().getBairro();
@@ -323,31 +331,36 @@ public class Agenda  {
 		System.out.print("Bairro: ");
 		bairro = controle.texto();
 		if(!bairro.equals("")) {
-			bairro = p.getEndereco().getBairro();
+			p.getEndereco().setBairro(bairro);
 		}
+		
 		rua = p.getEndereco().getRua();
 		if(!rua.equals(""))
 			System.out.println("Rua: " + rua);
 		System.out.print("Rua: ");
 		rua = controle.texto();
 		if(!rua.equals("")) {
-			rua = p.getEndereco().getRua();
+			p.getEndereco().setRua(rua);
 		}
+		
 		numero = p.getEndereco().getNumero();
+		if(!numero.equals(""))
 			System.out.println("Numero: " + numero);
 		System.out.print("Numero: ");
 		numero = controle.texto();
 		if(!numero.equals("")) {
-			numero = p.getEndereco().getNumero();
+			p.getEndereco().setNumero(numero);
 		}
+		
 		complemento = p.getEndereco().getComplemento();
 		if(!complemento.equals(""))
 			System.out.println("Complemento: " + complemento);
 		System.out.print("Complemento: ");
 		complemento = controle.texto();
 		if(!complemento.equals("")) {
-			complemento = p.getEndereco().getComplemento();
+			p.getEndereco().setComplemento(complemento);
 		}
+		
 		remover(i);
 		adicionar_ordenado(p);
 		return true;
@@ -383,7 +396,7 @@ public class Agenda  {
 	public void nova_compra(int i,  int produto, int quantidade) {
 		Pessoa p = this.clientes.get(i);
 		p.nova_compra(produto , quantidade);	
-		System.out.printf("%dx %s adicionados no historico de compras de %s\n",
+		System.out.printf("x%d %s adicionados no historico de compras de %s\n",
 						   quantidade,
 						   this.produtos[produto],
 						   p.getNome());
@@ -412,6 +425,88 @@ public class Agenda  {
 		if(id >= 0) {
 			this.input_nova_compra(id);
 		}
+	}
+	
+	public void perguntar_detalhar() {
+		System.out.print("Deseja detalhar um dos clientes (Y/n)?");
+		if(Menu.confirmar()) {
+			Controle  controle = new Controle();
+			int id  = -1;
+			boolean aviso = false;
+			do {
+				System.out.print("id do cliente:");
+				id = controle.opcao();
+				if(aviso) {
+					System.out.println("Não existe um cliente com esse id");
+					aviso = true;
+				}
+			}while(id < 0  || id >= this.clientes.size());
+			this.detalhar(id);
+		}
+	}
+	
+	public void detalhar(int id) {
+		Pessoa p = this.clientes.get(id);
+		System.out.println(p.info());
+		for(int i = 0; i < this.produtos.length; ++i) {
+			System.out.printf(" [%d] %25s x%d\n", i, this.produtos[i], p.getHist_produtos(i));
+		}
+	}
+	
+	public void relatorio() {
+		double idade_media = 0, idade_mediaM = 0, idade_mediaF = 0;
+		int prod_moda = 0, prod_modaM = 0, prod_modaF = 0;
+		int[] prods = new int[8];
+		int[] prodsM  = new int[8];
+		int[] prodsF = new int[8];
+		double size = (double) this.clientes.size(), qM = 0;
+		for(Pessoa p : this.clientes) {
+			// Media da idade
+			idade_media += p.getIdade() / size;
+			if(p.isGenero()) {
+				// Masculino
+				idade_mediaM += p.getIdade();
+				qM++;
+			}
+			else {
+				// Feminino
+				idade_mediaF += p.getIdade();
+			}
+			
+			// Moda dos produtos
+			int[] prod = p.getHist_produtos();
+			for(int i = 0; i < prod.length; ++i) {
+				prods[i] += prod[i];
+				if(p.isGenero()) {
+					// Masculino
+					prodsM[i] += prod[i];
+				}else {
+					// Feminino
+					prodsF[i] += prod[i];
+				}
+			}
+		}
+		idade_mediaM = idade_mediaM / qM;
+		idade_mediaF = idade_mediaF / (size - qM);
+		// Calculando modas
+		for(int i = 1; i < prods.length; ++i) {
+			if(prods[i] > prods[prod_moda])
+				prod_moda = i;
+			if(prodsM[i] > prodsM[prod_modaM])
+				prod_modaM = i;
+			if(prodsF[i] > prodsF[prod_modaF])
+				prod_modaF = i;
+		}
 		
+		// imprimindo estatisticas
+		
+			// Medias
+		System.out.println("A media de idade e de " + idade_media);
+		System.out.println("A media de idade entre os homens e de " + idade_mediaM);
+		System.out.println("A media de idade entre as mulheres e de " + idade_mediaF);
+			// Modas
+		System.out.println("O produto mais vendido e " + this.produtos[prod_moda]);
+		System.out.println("O produto mais vendido entre homens e " + this.produtos[prod_modaM]);
+		System.out.println("O produto mais vendido entre mulheres e " + this.produtos[prod_modaF]);
 	}
 }
