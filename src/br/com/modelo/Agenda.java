@@ -50,10 +50,14 @@ public class Agenda  {
 		} while(tnum.equals(""));
 
 		// Data de Nascimento
-		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
-		nascdt = controle.texto();
-		if(!nascdt.equals(""))
+		do {
+			System.out.print("Data de Nascimento (aaaa-MM-dd): ");
+			nascdt = controle.texto();
+			if(nascdt.equals(""))
+				break;
+			
 			nascms = data_para_milisegundos(nascdt);
+		} while(nascms == 0);
 
 		// Genero
 		System.out.print("Genero(M/f): ");
@@ -124,7 +128,14 @@ public class Agenda  {
 	}
 
 	private static long data_para_milisegundos(String data) {
-		LocalDate nasc = LocalDate.parse(data);
+		LocalDate nasc;
+		try {
+			nasc = LocalDate.parse(data);
+		}
+		catch(Exception e){
+			return 0;
+		}
+		
 		return nasc.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
 	}
