@@ -50,7 +50,7 @@ public class Agenda  {
 		} while(tnum.equals(""));
 
 		// Data de Nascimento
-		System.out.print("Data de Nascimento (aaaa-MM-dd): ");
+		System.out.print("(*)Data de Nascimento (aaaa-MM-dd): ");
 		nascdt = controle.texto();
 		if(!nascdt.equals(""))
 			nascms = data_para_milisegundos(nascdt);
