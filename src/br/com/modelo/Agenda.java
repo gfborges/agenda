@@ -83,8 +83,12 @@ public class Agenda  {
 		Pessoa p = new Pessoa(nome, tnum, cidade, 
 							bairro, rua, cnum, complemento,
 							nascms, genero);
-		
-		adicionar_ordenado(p);
+		System.out.println(p.info());
+		System.out.print("Deseja confirmar o cadastro(S/n)? ");
+		if( !controle.texto().toLowerCase().startsWith("n") ) {
+			adicionar_ordenado(p);
+			System.out.println("Cadastro efetuado");
+		}
 	}
 
 	private void adicionar_ordenado(Pessoa p) {
